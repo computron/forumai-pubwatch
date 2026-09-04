@@ -1,0 +1,58 @@
+# Weekly FORUM-AI publication watch.
+# Sweeps arXiv + OpenAlex for the FORUM-AI PIs, reads the acknowledgements, and appends anything new to the
+# "new_papers" / "no_funding" tabs of the tracker Google Sheet. Commits seen.json back so a paper is never
+# surfaced twice, even after Lien deletes its row.
+#
+# Until the two Google secrets exist (GSHEET_URL, GSHEET_SA_JSON -- see README), the run is report-only:
+# the digest appears in the Actions run summary and the ledger is NOT advanced, so nothing is lost.
+
+name: forumai-watch
+on:
+  schedule:
+    - cron: "17 14 * * 1"        # Mondays 14:17 UTC = 07:17 Pacific
+  workflow_dispatch:
+    inputs:
+      days:
+        description: "arXiv look-back window in days"
+        default: "14"
+
+permissions:
+  contents: write
+
+env:
+  GSHEET_URL: ${{ secrets.GSHEET_URL }}
+  GSHEET_SA_JSON: ${{ secrets.GSHEET_SA_JSON }}
+  DAYS: ${{ github.event.inputs.days || '14' }}
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: sudo apt-get install -y -qq poppler-utils      # pdftotext
+
+      - name: watch (living list -> Google Sheet)
+        if: env.GSHEET_URL != ''
+        run: |
+          printf '%s' "$GSHEET_SA_JSON" > sa.json
+          uv run forumai_watch.py --gsheet "$GSHEET_URL" --creds sa.json --days "$DAYS" --no-fulltext-tool | tee report.md
+          rm -f sa.json
+
+      - name: watch (report only -- Google secrets not set yet)
+        if: env.GSHEET_URL == ''
+        run: |
+          uv run forumai_watch.py --days "$DAYS" --no-fulltext-tool --no-update-seen | tee report.md
+          echo >> report.md
+          echo "_Report-only mode: GSHEET_URL / GSHEET_SA_JSON secrets are not set, so nothing was written to the sheet and the ledger was not advanced._" >> report.md
+
+      - name: commit the ledger
+        if: env.GSHEET_URL != ''
+        run: |
+          git config user.name "forumai-watch"
+          git config user.email "actions@users.noreply.github.com"
+          git add seen.json
+          git diff --cached --quiet || (git commit -m "forumai-watch $(date -u +%F)" && git push)
+
+      - name: summary
+        run: cat report.md >> "$GITHUB_STEP_SUMMARY"
