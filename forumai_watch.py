@@ -25,7 +25,9 @@ Never show the same paper twice: a paper is processed if its arXiv ID, DOI, or t
 cell of ANY tab of the tracker workbook, or in seen.json (every ID this script ever wrote). So Lien can
 move a row to the main list or delete it outright; either way it will not come back.
 
-Usage (living list in the Google Sheet):
+Usage (the weekly Action): append review items to the public feed the sheet's Apps Script pulls from
+  uv run forumai_watch.py --days 14 --publish candidates.json
+Usage (direct write to the Google Sheet with a service account; not used by default):
   uv run forumai_watch.py --gsheet <spreadsheet URL or ID> --creds service_account.json --days 14
 Usage (local xlsx copy, markdown report to stdout):
   uv run forumai_watch.py --sheet "FORUM-AI Paper Tracking.xlsx" --days 30
@@ -399,6 +401,7 @@ def main() -> int:
     ap.add_argument("--gsheet", help="Google Sheet URL or ID of the tracker (living-list mode: appends rows)")
     ap.add_argument("--creds", type=Path, help="service-account JSON for --gsheet; omit to use browser OAuth")
     ap.add_argument("--seen", type=Path, default=Path("seen.json"), help="ledger of already-handled IDs")
+    ap.add_argument("--publish", type=Path, help="cumulative JSON feed of review items (read by the sheet's Apps Script)")
     ap.add_argument("--all", action="store_true", help="also show tracked/seen items (recall check)")
     ap.add_argument("--no-update-seen", action="store_true")
     ap.add_argument("--no-openalex", action="store_true", help="arXiv channel only")
@@ -482,6 +485,16 @@ def main() -> int:
     if sh and shown and not args.all:
         counts = gsheet_append(sh, shown, today)
         out.append("Appended to the tracker: " + ", ".join(f"{n} rows -> {t}" for t, n in counts.items()))
+    if args.publish and not args.all:
+        feed = json.loads(args.publish.read_text()) if args.publish.exists() else []
+        have = {f["id"] for f in feed}
+        new = [p for p in shown if p["key"] not in have]
+        feed += [{"first_seen": str(today), "id": p["key"], "link": p["link"], "date": p["date"],
+                  "source": p["source"], "type": p["type"], "title": p["title"], "pis": ", ".join(p["pis"]),
+                  "authors": ", ".join(p["authors"]), "ack": p.get("ack", ""), "note": p.get("note", ""),
+                  "tab": TAB_FOR_TIER[p["tier"]]} for p in new]
+        args.publish.write_text(json.dumps(feed, indent=1, ensure_ascii=False) + "\n")
+        out.append(f"Feed {args.publish}: {len(new)} added, {len(feed)} total.")
     print("\n".join(out))
 
     if not args.no_update_seen:

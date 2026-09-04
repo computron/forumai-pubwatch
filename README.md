@@ -1,55 +1,56 @@
 # forumai-pubwatch
 
 Finds FORUM-AI publications without waiting for PIs to self-report, and feeds them into the
-**FORUM-AI Paper Tracking** Google Sheet for review.
+**FORUM-AI Paper Tracking** Google Sheet for review. Reviewers only ever touch the sheet.
 
-Every Monday a GitHub Action:
+## How it works
+
+Every Monday morning a GitHub Action (`forumai_watch.py`):
 
 1. sweeps **arXiv** (author search, same-day) and **OpenAlex** (every Crossref DOI: ChemRxiv, journals,
    proceedings) for the ten FORUM-AI PIs, from 2025-09-01 onward;
-2. skips anything already in the tracker workbook (any tab, matched by arXiv ID, DOI, or title) or in
-   `seen.json`, and drops records whose metadata already rules them out (non-DOE funders, off-topic,
-   datasets, meeting abstracts);
-3. reads the full text of the few survivors and appends rows to two tabs of the sheet:
-   - `new_papers` — acknowledges FORUM-AI, not yet on the main list
-   - `no_funding` — no funding statement found, or full text not reachable (the note column says which)
-4. commits `seen.json` so no paper is ever surfaced twice.
+2. skips everything already in `seen.json`, and drops records whose metadata already rules them out
+   (non-DOE funders, off-topic, datasets, meeting abstracts) -- typically a handful of records survive;
+3. reads the full text of the survivors and sorts them:
+   - acknowledges FORUM-AI -> `new_papers`
+   - explicit funding statement without FORUM-AI -> dropped silently (not our business)
+   - no funding statement, or text not reachable -> `no_funding` (the note says which);
+4. appends those to **`candidates.json`** (public, cumulative, bibliographic data only) and commits it
+   together with `seen.json`.
 
-Reviewers only touch the Google Sheet: move a row to the main list, or delete it. Nothing else.
-A deleted row does not come back. To resurface a paper on purpose, remove its ID from `seen.json`.
+Every Tuesday morning a small Apps Script inside the Google Sheet (`Code.gs`) fetches `candidates.json` and
+appends every item not already in the workbook to the `new_papers` / `no_funding` tabs, remembering what it
+appended in a hidden tab. Reviewing a row = move it to the main list, or delete it. It never comes back.
 
-## One-time Google setup (about five minutes, needs your Google login)
+No credentials anywhere: the Action only reads public APIs and writes to this repo; the script in the sheet
+runs as the sheet's owner and can touch only that sheet.
 
-1. <https://console.cloud.google.com/> → pick or create a project → **APIs & Services → Library** →
-   enable **Google Sheets API** and **Google Drive API**.
-2. **IAM & Admin → Service Accounts → Create service account** (any name, no roles needed) →
-   open it → **Keys → Add key → JSON**. A `.json` file downloads.
-3. Open the tracker Google Sheet → **Share** → paste the service account's e-mail
-   (`…@…iam.gserviceaccount.com`) → **Editor**. If LBL's Workspace refuses to share outside lbl.gov,
-   see the fallback below.
-4. From a terminal, in a clone of this repo:
+## One-time install in the sheet (two minutes)
 
-       gh secret set GSHEET_URL --body "https://docs.google.com/spreadsheets/d/<the sheet id>/edit"
-       gh secret set GSHEET_SA_JSON < ~/Downloads/<the downloaded key>.json
+1. Open the tracker Google Sheet -> **Extensions -> Apps Script**.
+2. Delete the placeholder `function myFunction() {}` and paste the whole of `Code.gs`. Click the save icon.
+3. In the toolbar, pick `setup` in the function dropdown and click **Run**. Google asks for permission once
+   ("this script wants to edit this spreadsheet and connect to an external service"): **Review permissions
+   -> choose your account -> Allow**. If it says "Google hasn't verified this app", click Advanced -> Go to
+   ... (unsafe) -> Allow; it is your own script, in your own sheet.
+4. Back in the sheet: two new tabs, `new_papers` and `no_funding`, filled from the backfill. A
+   **FORUM-AI watch** menu appears for manual pulls. The weekly pull is now scheduled.
 
-5. **Actions → forumai-watch → Run workflow** to do the first live run. It creates the two tabs.
+## Local use
 
-Until step 4 is done the workflow still runs, but in report-only mode: the digest shows up under the
-run's **Summary** and the ledger is not advanced.
-
-**Fallback if sharing to a service account is blocked:** run the script on a Mac instead of in Actions,
-with your own login: `uv run forumai_watch.py --gsheet <url> --days 14` (no `--creds`) opens a browser
-consent once via gspread's OAuth flow; schedule it with launchd or cron.
-
-## Running locally
-
-    uv run forumai_watch.py --days 14 --sheet "FORUM-AI Paper Tracking.xlsx"      # report against a local xlsx
-    uv run forumai_watch.py --since 2026-01-01 --all --dry-run                     # what would be swept, fetch nothing
+    uv run forumai_watch.py --days 14 --sheet "FORUM-AI Paper Tracking.xlsx"      # markdown report against a local xlsx
+    uv run forumai_watch.py --since 2026-01-01 --dry-run                           # what would be swept; fetch nothing
     uv run forumai_watch.py --help
 
 Dependencies are declared inline (PEP 723); `uv` installs them. `pdftotext` (poppler) is optional but faster.
-Full-text access to paywalled journals is the residual gap: those rows land in `no_funding` with a note
-listing the Crossref funders, for a by-hand check. ChemRxiv blocks scripted downloads and is handled the same way.
+
+## Known gaps
+
+- Paywalled journal articles cannot be read; they land in `no_funding` with the Crossref funder list for a
+  by-hand check (about 17 in the whole first year). FORUM-AI has no award number of its own, so funder
+  metadata cannot settle them.
+- ChemRxiv blocks scripted downloads (Cloudflare); same treatment.
+- To resurface a paper on purpose, delete its row from the hidden `_forumai_seen` tab (View -> Hidden sheets).
 
 ## Tuning
 
