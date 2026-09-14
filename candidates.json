@@ -446,5 +446,47 @@
   "ack": "",
   "note": "full text not reachable; Crossref funders: U.S. Department of Energy, National Energy Research Scientific Computing Center, Eidgenössisches Nuklearsicherheitsinspektorat, Office of Science, Basic Energy Sciences, Lawrence Berkeley National Laboratory. Check the acknowledgement by hand.",
   "tab": "no_funding"
+ },
+ {
+  "first_seen": "2026-09-14",
+  "id": "10.2172/3740114",
+  "link": "https://doi.org/10.2172/3740114",
+  "date": "2026-08-01",
+  "source": "?",
+  "type": "report",
+  "title": "RADIANCE: Rapid AI for Data Integration and Analytics in Childhood and Young Adult Cancer Ecosystems: FY26 AIM-3 MVP Report",
+  "pis": "Tirthankar Ghosal",
+  "authors": "Mayanka Chandrashekar, USDOE, Xi Zhang, Ethan Seefried, Tirthankar Ghosal, Ankita Paul, Heidi A. Hanson",
+  "ack": "",
+  "note": "full text not reachable; Crossref funders: none listed. Check the acknowledgement by hand.",
+  "tab": "no_funding"
+ },
+ {
+  "first_seen": "2026-09-14",
+  "id": "10.1021/acs.chemmater.6c00942",
+  "link": "https://doi.org/10.1021/acs.chemmater.6c00942",
+  "date": "2026-09-08",
+  "source": "Chemistry of Materials",
+  "type": "article",
+  "title": "Fluorination-Enhanced Ionic Conductivity in Cost-Effective Halide Solid Electrolytes",
+  "pis": "Gerbrand Ceder",
+  "authors": "Yu Chen, Xiaochen Yang, Hao Qiu, Raynald Giovine, Shilong Wang, Yinghui Li, Shuoyan Xiong, KyuJung Jun, Chaochao Dun, Chang Li, Jeffrey J. Urban, Gerbrand Ceder",
+  "ack": "",
+  "note": "full text not reachable; Crossref funders: National Science Foundation, U.S. Department of Energy, Umicore. Check the acknowledgement by hand.",
+  "tab": "no_funding"
+ },
+ {
+  "first_seen": "2026-09-14",
+  "id": "10.64898/2026.09.05.749573",
+  "link": "https://doi.org/10.64898/2026.09.05.749573",
+  "date": "2026-09-09",
+  "source": "bioRxiv (Cold Spring Harbor Laboratory)",
+  "type": "preprint",
+  "title": "Empirical Geometry-Guided Modeling Enables Robust, High-Throughput Collagen Structure Prediction",
+  "pis": "Markus Buehler",
+  "authors": "Bruno Howard, Maxwell Bauer, Markus J. Buehler",
+  "ack": "",
+  "note": "full text not reachable; Crossref funders: none listed. Check the acknowledgement by hand.",
+  "tab": "no_funding"
  }
 ]
