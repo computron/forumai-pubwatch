@@ -488,5 +488,33 @@
   "ack": "",
   "note": "full text not reachable; Crossref funders: none listed. Check the acknowledgement by hand.",
   "tab": "no_funding"
+ },
+ {
+  "first_seen": "2026-10-05",
+  "id": "10.1021/acs.chemmater.6c01051",
+  "link": "https://doi.org/10.1021/acs.chemmater.6c01051",
+  "date": "2026-09-28",
+  "source": "Chemistry of Materials",
+  "type": "article",
+  "title": "Machine Learning Interatomic Potentials for Modeling Solid-State Batteries",
+  "pis": "Gerbrand Ceder, Maria Chan",
+  "authors": "Mgcini Keith Phuthi, Grace Wei, Bryant Y. Li, Sauradeep Majumdar, Venkata Surya Chaitanya Kolluru, Nitesh Kumar, Samuel M. Blau, Pieremanuele Canepa, Maria K. Y. Chan, Rafael Gómez‐Bombarelli, Kristin Persson, Gerbrand Ceder, Shyue Ping Ong",
+  "ack": "",
+  "note": "full text not reachable; Crossref funders: Basic Energy Sciences. Check the acknowledgement by hand.",
+  "tab": "no_funding"
+ },
+ {
+  "first_seen": "2026-10-05",
+  "id": "10.26434/chemrxiv.15009707",
+  "link": "https://doi.org/10.26434/chemrxiv.15009707/v1",
+  "date": "2026-10-01",
+  "source": "ChemRxiv",
+  "type": "preprint",
+  "title": "Models building models for discovery of graphene metamaterial design principles in the context of failure",
+  "pis": "Markus Buehler",
+  "authors": "Markus J. Buehler",
+  "ack": "",
+  "note": "ChemRxiv blocks automated download (Cloudflare); open the link and read the acknowledgement.",
+  "tab": "no_funding"
  }
 ]
