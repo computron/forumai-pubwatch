@@ -614,5 +614,19 @@
   "ack": "",
   "note": "full text not reachable; Crossref funders: none listed. Check the acknowledgement by hand.",
   "tab": "no_funding"
+ },
+ {
+  "first_seen": "2026-11-02",
+  "id": "2610.31066",
+  "link": "https://arxiv.org/abs/2610.31066",
+  "date": "2026-10-22",
+  "source": "arXiv",
+  "type": "preprint",
+  "title": "Dual Exam: Controlled Evaluation of Multimodal Agents and World Models",
+  "pis": "Gerbrand Ceder",
+  "authors": "Zhefan Rao, Meng Chu, Xuan Billy Zhang, Jingfan Chen, Guohao Cai, Runyi Li, Shiyi Du, Xu Huang, Ning Lu, Trusure Chen, Feng Nie, Zhenhao Liang, Haodong Chen, Hanwen Wang, Wenjie Shu, Yajing Bai, Xianfeng Wu, Xuanhua He, An Wang, Shuhan Guo, Ziyue Ma, Ruichuan An, Long Bai, Miaosen Chai, Wenhao Chai, Jingye Chen, Qi Chen, Xuhang Chen, Wei Chow, Minghao Fu, Shenyuan Gao, Yunhao Gou, Haokun Gui, Dong Huang, Wei Huang, Zi Cheng Huang, Ziyan Jiang, Haibo Jin, Lingdong Kong, Leung Chun Ho, Tianqin Li, Yanheng Li, Jiayuan Liu, Jiyang Liu, Mingyu Liu, Shaoteng Liu, Xiaocheng Lu, Yawen Luo, Zeyu Qin, Tiancheng Shen, Yueqi Song, Zhaolong Su, Hengkai Tan, Tianhao Tang, Yiran Tao, Juncheng Wang, Qinghe Wang, Shangshang Wang, Yingying Wang, Fang Wu, Tiange Xiang, Qiushi Yang, Weicai Ye, Weichen Yu, Jiarui Zhang, Jize Zhang, Liuzhou Zhang, Renrui Zhang, Sheng Zhang, Wenhu Zhang, Junru Zhao, Lingting Zhu, Xi Zhu, Yuxin Zuo, Yutong Bai, Qifeng Chen, Long Chen, Yang Deng, Ziqi Huang, Yeying Jin, Weijia Li, Kevin Qinghong Lin, Quande Liu, Dimitris Metaxas, See-Kiong Ng, Hongliang Ren, Hongru Wang, Gerbrand Ceder, Shujun Wang, Ming-Hsuan Yang, Alan Yuille, Haoxuan Che",
+  "ack": "",
+  "note": "",
+  "tab": "no_funding"
  }
 ]
