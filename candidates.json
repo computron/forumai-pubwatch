@@ -642,5 +642,33 @@
   "ack": "",
   "note": "",
   "tab": "no_funding"
+ },
+ {
+  "first_seen": "2026-11-16",
+  "id": "10.26434/chemrxiv.15011970",
+  "link": "https://doi.org/10.26434/chemrxiv.15011970/v1",
+  "date": "2026-11-11",
+  "source": "ChemRxiv",
+  "type": "preprint",
+  "title": "The Reverse Pourbaix Explorer: a condition-first screening tool of aqueous stability on the Materials Project",
+  "pis": "Kristin Persson",
+  "authors": "Lisbeth Karlsson, Min–Hsueh Chiu, Tyler S. Mathis, Brendan Foley, Mathias Stokkebye Nissen, Peter Beck, Patrick Huck, Kristin Aslaug Persson, Alexander Bagger",
+  "ack": "",
+  "note": "ChemRxiv blocks automated download (Cloudflare); open the link and read the acknowledgement.",
+  "tab": "no_funding"
+ },
+ {
+  "first_seen": "2026-11-16",
+  "id": "10.26434/chemrxiv.15012016",
+  "link": "https://doi.org/10.26434/chemrxiv.15012016/v1",
+  "date": "2026-11-11",
+  "source": "ChemRxiv",
+  "type": "preprint",
+  "title": "FORGE: Flux-Orchestrated Reaction Generation Engine",
+  "pis": "Kristin Persson",
+  "authors": "N. Nagappan, Kristin Aslaug Persson",
+  "ack": "",
+  "note": "ChemRxiv blocks automated download (Cloudflare); open the link and read the acknowledgement.",
+  "tab": "no_funding"
  }
 ]
